@@ -56,7 +56,7 @@ async function run() {
     if (url_parts[0] === "https:" && url_parts[2] === "orac2.info" && url_parts[url_parts.length - 1] === "hof") {
         let hof_count = parseInt(document.getElementsByTagName("b")[0].textContent);
         let problem_id = window.location.href.substr(18, window.location.href.length - 21);
-        let problem = readLocalStorage(problem_id);
+        let problem = await readLocalStorage(problem_id);
         if (problem !== null) {
             problem.hof_count = hof_count;
             writeLocalStorage(problem_id, problem);
@@ -94,16 +94,20 @@ async function run() {
                 }
                 // scrape hof if should scrape
                 if (scrape_next_hof) {
-                    problem.hof_count = await get_hof_count(problem.url + "hof");
-                    writeLocalStorage(problem.id, problem);
-                    writeLocalStorage("hof-scrape-id", problem.id);
                     scrape_next_hof = false;
                     scraped_a_hof = true;
-                    console.log(`read hof count of ${problem.id}: ${problem.hof_count}`);
+                    setTimeout(async function() {
+                        problem.hof_count = await get_hof_count(problem.url + "hof");
+                        writeLocalStorage(problem.id, problem);
+                        writeLocalStorage("hof-scrape-id", problem.id);
+                        console.log(`read hof count of ${problem.id}: ${problem.hof_count}`);
+                        console.log("it will update next time u reload lol because making it update now is kinda difficult");
+                    }, 2000);
                 }
                 if (last_hof === problem.id && !scraped_a_hof) scrape_next_hof = true;
                 // add to problems 
                 problems[problem.id] = problem;
+                writeLocalStorage(problem.id, problem);
             }
         }
         // if just scraped last hof, reset to addition
@@ -319,7 +323,6 @@ async function run() {
             }
             // loop through the tag buttons
             for (let tag_badge of document.querySelectorAll(".badge-tag")) {
-                console.log(tag_badge);
                 if (selected_tags[tag_badge.outerText] || selected_tags[tag_badge.outerText] === undefined) {
                     selected_tags[tag_badge.outerText] = true;
                     tag_badge.classList.add("selected-tag");
@@ -335,7 +338,6 @@ async function run() {
                     display_selected_sets();
                     // save to local storage
                     writeLocalStorage("selected-tags", selected_tags);
-                    console.log(selected_tags);
                 }
             }
             display_selected_sets();

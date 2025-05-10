@@ -9,4 +9,3 @@
 
 ## Bugs:
 - pinned problem disappears when no tags selected (i think)
-- should make the single scrape async to reduce like loading time
