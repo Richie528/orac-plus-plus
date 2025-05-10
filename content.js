@@ -293,7 +293,17 @@ async function run() {
             // multi tag select
             let selected_tags = await readLocalStorage("selected-tags"); // get from local storage
             if (selected_tags === null) selected_tags = {};
-            console.log(selected_tags);
+            // add a starter tag for first 8 sets
+            let cnt = 0;
+            for (let problem_set_div of document.querySelectorAll(".problemset-display")) {
+                problem_set_div.classList.add("set-tag-starter");
+                cnt += 1;
+                if (cnt == 8) break;
+            }
+            let starter_tag_badge = document.createElement("span");
+            starter_tag_badge.classList.add("badge", "badge-tag");
+            starter_tag_badge.textContent = "starter";
+            document.querySelector(".badge-tag").parentElement.insertBefore(starter_tag_badge, document.querySelector(".badge-tag"));
             // hide all the sets whose tags aren't selected
             function display_selected_sets() {
                 for (let problem_set_div of document.querySelectorAll(".problemset-display")) {
