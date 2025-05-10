@@ -304,8 +304,10 @@ async function run() {
                 cnt += 1;
                 if (cnt == 8) break;
             }
+            // make start tag badge
+            for (let unwanted of document.querySelectorAll(".badge-tag-starter")) unwanted.remove();
             let starter_tag_badge = document.createElement("span");
-            starter_tag_badge.classList.add("badge", "badge-tag");
+            starter_tag_badge.classList.add("badge", "badge-tag", "badge-tag-starter");
             starter_tag_badge.textContent = "starter";
             document.querySelector(".badge-tag").parentElement.insertBefore(starter_tag_badge, document.querySelector(".badge-tag"));
             // hide all the sets whose tags aren't selected
