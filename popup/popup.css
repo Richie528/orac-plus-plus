@@ -1,0 +1,78 @@
+body {
+    width: 250px;
+    height: 475px;
+    padding: 50px;
+    border: none;
+    background-color: #eceff4;
+    font-family: 'Golos Text', monospace;
+    color: #2e3440;
+}
+
+h2 {
+    margin-top: -20px;
+    font-weight: 100;
+    font-size: 14px;
+    color: #4c566a;
+}
+
+p {
+    font-size: 12px;
+}
+
+.container {
+    position: relative;
+}
+
+.toggle {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    position: relative;
+    margin: 4px 0px 0px 0px;
+    width: 250px;
+    height: 40px;
+    border-radius: 7px;
+    background-color: #4c566a;
+    transition: background-color 0.3s;
+}
+  
+.toggle:before {
+    content: "";
+    background: #d8dee9;
+    border-radius: 5px;
+    transition: left 0.25s;
+    position: absolute;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    left: 5px;
+    top: 5px;
+}
+  
+.toggle:checked {
+    background-color: #81a1c1;
+}
+  
+.toggle:checked:before {
+    left: 215px;
+}
+
+.option-label {
+    top: 4px;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 40px;
+    position: absolute;
+    color: #d8dee9;
+    pointer-events: none;
+    user-select: none;
+}
+
+.reset-button {
+    font-size: 17px;
+    user-select: none;
+}

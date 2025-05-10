@@ -1,0 +1,34 @@
+{
+    "manifest_version": 2,
+    "name": "Orac++",
+    "version": "1.1",
+    "description": "...",
+    "permissions": [
+        "activeTab",
+        "storage"
+    ],
+    "icons": {
+        "16": "icons/icon16.png",
+        "32": "icons/icon32.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    },
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "browser_action": {
+        "default_popup": "popup/popup.html",
+        "default_icon": "icons/icon128.png"
+    },
+    "content_scripts": [
+        {
+            "run_at": "document_end",
+            "matches": ["https://orac2.info/*"],
+            "js": [
+                "content.js"
+            ]
+        }
+    ],
+    "browser_specific_settings": {"gecko": {"id": "{fa9633d8-92b1-4e81-8d5e-4a77db047ed7}"}}
+}
