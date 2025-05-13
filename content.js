@@ -58,17 +58,14 @@ async function run() {
     }
 
     // read settings from local storage
-    let [settings, last_hof] = await Promise.all([
-        readLocalStorage("settings").then(s => s || {
-            "adjust-title": false,
-            "solve-count": false,
-            "hof-counters": false,
-            "hof-counter-colours": false,
-            "pinned-problems": false,
-            "tags-and-buttons": false
-        }),
-        readLocalStorage("hof-scrape-id").then(h => h || "/problem/332/")
-    ]);
+    let settings = await readLocalStorage("settings").then(s => s || {
+        "adjust-title": false,
+        "solve-count": false,
+        "hof-counters": false,
+        "hof-counter-colours": false,
+        "pinned-problems": false,
+        "tags-and-buttons": false
+    });
 
     // collect all the data we need
     let problems = {};
@@ -76,6 +73,12 @@ async function run() {
     let problem_divs = [];
     for (let problem_set_div of document.querySelectorAll(".set-problems")) {
         problem_divs.push(...problem_set_div.children[0].children[0].children);
+    }
+    function update_problem_divs() {
+        problem_divs = [];
+        for (let problem_set_div of document.querySelectorAll(".set-problems")) {
+            problem_divs.push(...problem_set_div.children[0].children[0].children);
+        }
     }
 
     // for all the problems,
@@ -97,7 +100,7 @@ async function run() {
         let problem_save = await readLocalStorage(problem.id);
         if (problem_save !== null) {
             problem.pinned = problem_save.pinned;
-            problem.hof_count = problem_save.hof_count;
+            problem.hof_count = problem_save.hof_count || 0;
         }
 
         // add to problems 
@@ -265,14 +268,16 @@ async function run() {
                     problems[problem_id].pinned = !problems[problem_id].pinned;
                     tack.style.color = (problems[problem_id].pinned) ? "#343a40" : "#999999";
                     writeLocalStorage(problem_id, problems[problem_id]);
-                    create_pinned_set();
-                    create_tacks();
+                    await create_pinned_set();
+                    update_problem_divs();
+                    await create_tacks();
                 }
             }));
         }
         // actually do it
-        create_pinned_set();
-        create_tacks();
+        await create_pinned_set();
+        update_problem_divs();
+        await create_tacks();
     }
 
     // tags and buttons
