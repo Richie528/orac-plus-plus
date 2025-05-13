@@ -352,13 +352,12 @@ async function run() {
         if (hof_to_scrape === null || hof_to_scrape >= Object.keys(problems).length) hof_to_scrape = 0;
 
         let problem_id = Object.keys(problems)[hof_to_scrape];
-        console.log(problem_id);
         problems[problem_id].hof_count = await get_hof_count(problems[problem_id].url + "hof");
         writeLocalStorage(problem_id, problems[problem_id]);
         console.log(`read hof count of ${problem_id}: ${problems[problem_id].hof_count}`);
 
         writeLocalStorage("hof-scrape-num", hof_to_scrape + 1);
-    }, 2000);
+    }, 750);
 }
 
 // run whenever the page is shown
