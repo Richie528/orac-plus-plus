@@ -44,31 +44,31 @@ async function run() {
         let url_parts = window.location.href.split("/");
         // check is hof page
         if (url_parts[0] === "https:" && url_parts[2] === "orac2.info" && url_parts[url_parts.length - 1] === "hof") {
-						let b_elements = document.getElementsByTagName("b");
-						if (b_elements.length){
-            		let hof_count = parseInt(b_elements[0].textContent);
-            		let problem_id = window.location.href.substr(18, window.location.href.length - 21);
-            		let problem = await readLocalStorage(problem_id);
-            		if (problem !== null) {
-									  problem.hof_count = hof_count;
-            	 	    writeLocalStorage(problem_id, problem);
-            	 	    console.log(`read hof count of ${problem_id}: ${hof_count}`);
-            		}
-						} else {
-            		let problem_id = window.location.href.substr(18, window.location.href.length - 21);
-            		let problem = await readLocalStorage(problem_id);
-								if (problem != null){
-										let ranks = document.querySelectorAll('[title="Rank"]');
-										if (ranks.length && document.querySelector('[title="Score"]').textContent == '100'){
-												problem.hof_count = 0;
-												for (let ind = 0; ind < ranks.length; ind++)
-														if (ranks[ind].textContent == '1')
-																problem.hof_count++;
-												writeLocalStorage(problem_id, problem);
-												console.log(`read hof count of ${problem_id}: ${problem.hof_count}`);
-										}
-								}
-						}
+            let b_elements = document.getElementsByTagName("b");
+            if (b_elements.length) {
+                let hof_count = parseInt(b_elements[0].textContent);
+                let problem_id = window.location.href.substr(18, window.location.href.length - 21);
+                let problem = await readLocalStorage(problem_id);
+                if (problem !== null) {
+                    problem.hof_count = hof_count;
+                    writeLocalStorage(problem_id, problem);
+                    console.log(`read hof count of ${problem_id}: ${hof_count}`);
+                }
+            } else {
+                let problem_id = window.location.href.substr(18, window.location.href.length - 21);
+                let problem = await readLocalStorage(problem_id);
+                if (problem != null) {
+                    let ranks = document.querySelectorAll('[title="Rank"]');
+                    if (ranks.length && document.querySelector('[title="Score"]').textContent == '100') {
+                        problem.hof_count = 0;
+                        for (let ind = 0; ind < ranks.length; ind++)
+                            if (ranks[ind].textContent == '1')
+                                problem.hof_count++;
+                        writeLocalStorage(problem_id, problem);
+                        console.log(`read hof count of ${problem_id}: ${problem.hof_count}`);
+                    }
+                }
+            }
         }
         // scrape hof on statement page?? idrk how to implement this tho
         return;
